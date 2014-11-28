@@ -1,0 +1,5 @@
+#!/bin/bash
+
+foldername=$(date +%Y-%m-%d_%H-%M-%S)
+mkdir -p  /home/mikes/Desktop/logs/"$foldername/site/"
+touch /home/mikes/Desktop/logs/"$foldername"/site_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
