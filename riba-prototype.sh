@@ -14,3 +14,5 @@ sudo rm -rf /usr/share/nginx/site_*
 
 #la mine nu merg comenzile fara sudo
 #pe server ne logam de obicei cu root deci sudo nu va mai fi necesar
+#asta e varianta pentru /site/site_timestamp, varianta pentru db/mysql/ 
+#se face destul de usor
