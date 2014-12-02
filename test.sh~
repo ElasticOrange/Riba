@@ -1,16 +1,36 @@
 #!/bin/bash
 
 foldername=$(date +%Y-%m-%d_%H-%M-%S)
-CONFIG_FILE=/home/mikes/Desktop/Riba/backup.cfg
 
-mongodump -d unique-romania -o /home/mikes/"$foldername"/$(date +%Y-%m-%d_%H-%M-%S).csv
+##SOURCE_SITE
+#tar -cpz /usr/share/nginx/unique-romania.studio/ | split -d -b 240m - /usr/share/nginx/unique-romania.studio/site_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
 
-#Backups/ElasticOrange/2014-11-28_12-17-00/db/mysql/db_mysql_2014-11-28_12-19-00.tar.gz
+CONFIG_FILE=/home/mikes/Desktop/Riba/backup.conf
 
-tar -cpz /home/mikes/"$foldername" | split -d -b 240m - /home/mikes/db_mongo_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
+if [[ -f $CONFIG_FILE ]]; then
+        . $CONFIG_FILE
+fi
 
-mkdir -p  /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/
+tar -cpz $SOURCE_SITE | split -d -b 230m - $SOURCE_SITE/site_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
 
-rsync -azvv /home/mikes/db_mongo_* /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/mongo/
+mkdir -p $DESTINATION_SITE
 
-rm -rf /home/mikes/db_mongo_* 
+#SOURCE_SITE DESTINATION_SITE
+rsync -azvv $SOURCE_SITE/site_* $DESTINATION_SITE
+
+rm -rf $SOURCE_SITE/site_* 
+
+#DB_NAME SOURCE_DB
+mongodump -d $DB_NAME -o $SOURCE_DB/$(date +%Y-%m-%d_%H-%M-%S).csv
+
+#SOURCE_DB
+tar -cpz $SOURCE_DB | split -d -b 240m - $SOURCE_DB/db_mongo_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
+
+#DESTINATION_DB
+mkdir -p  $DESTINATION_DB
+
+#SOURCE_DB DESTINATION_DB
+rsync -azvv $SOURCE_DB/db_mongo_* $DESTINATION_DB
+
+rm -rf $SOURCE_DB/db_mongo_* 
+
