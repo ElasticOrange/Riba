@@ -1,28 +1,32 @@
 #!/bin/bash
 
-sudo mount /home/mikes/box.com
+mount /home/mikes/box.com
 
 foldername=$(date +%Y-%m-%d_%H-%M-%S)
 
-sudo tar -cpz /usr/share/nginx/unique-romania.studio/ | split -d -b 240m - /usr/share/nginx/site_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
+#SOURCE_SITE
+tar -cpz /usr/share/nginx/unique-romania.studio/ | split -d -b 240m - /usr/share/nginx/unique-romania.studio/site_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
 
-sudo mkdir -p  /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/site/
+#DESTINATION_SITE
+mkdir -p  /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/site/
 
-rsync -azvv /usr/share/nginx/site_* /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/site/
+#SOURCE_SITE DESTINATION_SITE
+rsync -azvv /usr/share/nginx/unique-romania.studio/site_* /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/site/
 
-sudo rm -rf /usr/share/nginx/site_* 
+rm -rf /usr/share/nginx/unique-romania.studio/site_* 
 
-#la mine nu merg comenzile fara sudo
-#pe server ne logam de obicei cu root deci sudo nu va mai fi necesar
-
+#SOURCE_DB
 mongodump -d unique-romania -o /home/mikes/"$foldername"/$(date +%Y-%m-%d_%H-%M-%S).csv
 
 #Backups/UniqueRomania/2014-11-28_12-17-00/db/mysql/db_mysql_2014-11-28_12-19-00.tar.gz
 
-tar -cpz /home/mikes/"$foldername" | split -d -b 240m - /home/mikes/db_mongo_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
+#SOURCE_DB
+tar -cpz /home/mikes/"$foldername"/ | split -d -b 240m - /home/mikes/"$foldername"/db_mongo_$(date +%Y-%m-%d_%H-%M-%S).tar.gz
 
-mkdir -p  /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/
+#DESTINATION_DB
+mkdir -p  /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/mongo/
 
-rsync -azvv /home/mikes/db_mongo_* /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/mongo/
+#SOURCE_DB DESTINATION_DB
+rsync -azvv /home/mikes/"$foldername"/db_mongo_* /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/mongo/
 
-rm -rf /home/mikes/db_mongo_* 
+rm -rf /home/mikes/"$foldername"/db_mongo_* 

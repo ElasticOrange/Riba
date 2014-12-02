@@ -1,7 +1,7 @@
 #!/bin/bash
 
 foldername=$(date +%Y-%m-%d_%H-%M-%S)
-
+CONFIG_FILE=/home/mikes/Desktop/Riba/backup.cfg
 
 mongodump -d unique-romania -o /home/mikes/"$foldername"/$(date +%Y-%m-%d_%H-%M-%S).csv
 
@@ -13,4 +13,4 @@ mkdir -p  /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/
 
 rsync -azvv /home/mikes/db_mongo_* /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/mongo/
 
-rm -rf /usr/share/nginx/site_* 
+rm -rf /home/mikes/db_mongo_* 

@@ -1,0 +1,5 @@
+SOURCE_SITE="/usr/share/nginx/site_here"
+SOURCE_DB=
+DESTINATION_SITE=/home/mikes/box.com/Backups/project_name_here/"$foldername"/site/
+DESTINATION_DB=/home/mikes/box.com/Backups/project_name_here/"$foldername"/db/mongo/
+

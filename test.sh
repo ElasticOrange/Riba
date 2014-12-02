@@ -2,6 +2,11 @@
 
 foldername=$(date +%Y-%m-%d_%H-%M-%S)
 
+CONFIG_FILE=/home/mikes/Desktop/Riba/backup.cfg
+
+if [[ -f $CONFIG_FILE ]]; then
+        . $CONFIG_FILE
+fi
 
 mongodump -d unique-romania -o /home/mikes/"$foldername"/$(date +%Y-%m-%d_%H-%M-%S).csv
 
