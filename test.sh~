@@ -13,4 +13,4 @@ mkdir -p  /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/
 
 rsync -azvv /home/mikes/db_mongo_* /home/mikes/box.com/Backups/UniqueRomania/"$foldername"/db/mongo/
 
-rm -rf /home/mikes/db_mongo_* 
+rm -rf /usr/share/nginx/site_* 
